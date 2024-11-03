@@ -60,6 +60,11 @@ export const basisspiel: DominionCard[] = [
         cost: 4
     },
     {
+        name: "Gärten",
+        type: DominionCardType.Point,
+        cost: 4
+    },
+    {
         name: "Geldverleiher",
         type: DominionCardType.Action,
         cost: 4
@@ -128,9 +133,4 @@ export const basisspiel: DominionCard[] = [
         name: "Abenteuer",
         type: DominionCardType.Action,
         cost: 6
-    },
-    {
-        name: "Gärten",
-        type: DominionCardType.Point,
-        cost: 4
     }]
