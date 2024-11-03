@@ -1,21 +1,18 @@
-import { Stack, Typography, Button, List, ListItem } from "@mui/joy"
+import { Stack, Typography, Button } from "@mui/joy"
 import CardBox from "./CardBox"
 import { CardOptionProps } from "./CardOption"
 import { useEffect, useState } from "react"
+import { basisspiel, DominionCard } from "./Game"
+import CardDisplay from "./CardDisplay"
+
+
 
 
 function App() {
 
-  const basisspiel = ["Burggraben", "Kapelle", "Keller", "Dorf", "Holzfäller",
-    "Kanzler", "Werkstatt", "Bürokrat", "Dieb", "Festmahl", "Geldverleiher",
-    "Miliz", "Schmiede", "Spion", "Thronsaal", "Umbau", "Bibliothek", "Hexe",
-    "Jahrmarkt", "Laboratorium", "Markt", "Mine", "Ratsversammlung", "Abenteuer",
-    "Gärten"
-  ].sort()
-
-  const [choices, setChoices] = useState<string[]>([])
-  const [include, setInclude] = useState<string[]>([])
-  const [exclude, setExclude] = useState<string[]>([])
+  const [choices, setChoices] = useState<DominionCard[]>([])
+  const [include, setInclude] = useState<DominionCard[]>([])
+  const [exclude, setExclude] = useState<DominionCard[]>([])
   const [nCombinations, setNCombinations] = useState(0)
 
   const factorial = (num: number) => {
@@ -44,19 +41,28 @@ function App() {
       }
       temp.push(basisspiel[rng])
     }
-    setChoices(temp.sort())
+    temp.sort((a: DominionCard, b: DominionCard) => {
+      if (a.cost < b.cost) return -1
+      if (a.cost > b.cost) return 1
+      else {
+        if (a.name < b.name) return -1
+        if (a.name > b.name) return 1
+        return 0
+      }
+    })
+    setChoices(temp)
   }
 
-  const removeFromBothLists = (card: string) => {
+  const removeFromBothLists = (card: DominionCard) => {
     setInclude(include.filter(item => item != card))
     setExclude(exclude.filter(item => item != card))
   }
 
-  const addToInclude = (card: string) => {
+  const addToInclude = (card: DominionCard) => {
     setInclude([...include, card])
   }
 
-  const addToExclude = (card: string) => {
+  const addToExclude = (card: DominionCard) => {
     setExclude([...exclude, card])
   }
 
@@ -66,20 +72,32 @@ function App() {
       <Typography color="primary" level="h2">Dominion RNG</Typography>
       <Typography color="neutral">Mögliche Spiele: {new Intl.NumberFormat('de-DE').format(nCombinations)}</Typography>
 
-      <CardBox key="basisspiel" name="Basisspiel" cards={basisspiel.map(name => (
+      <CardBox key="basisspiel" name="Basisspiel (1. Edition)" cards={basisspiel.map(card => (
         {
-          cardName: name,
-          onDefault: () => removeFromBothLists(name),
-          onInclude: () => addToInclude(name),
-          onExclude: () => addToExclude(name),
+          card: card,
+          onDefault: () => removeFromBothLists(card),
+          onInclude: () => {
+            addToInclude(card)
+            setExclude(exclude.filter(item => item != card))
+          },
+          onExclude: () => {
+            addToExclude(card)
+            setInclude(include.filter(item => item != card))
+          },
         } as CardOptionProps))} />
 
 
-      <Button onClick={shuffle} disabled={nCombinations < 1}>RNG</Button>
-      <Button onClick={() => setChoices([])} color="danger">clear</Button>
-      <List>
-        {choices.map(c => <ListItem key={c}>{c}</ListItem>)}
-      </List>
+      <Button onClick={shuffle} disabled={nCombinations < 1}>Neues Spiel</Button>
+      <Button onClick={() => {
+        setChoices([])
+        setExclude([])
+        setInclude([])
+      }} color="danger">Reset</Button>
+      <Stack spacing={0.5}>
+        {choices.map(choice =>
+          <CardDisplay cardData={choice} />
+        )}
+      </Stack>
 
     </Stack>
 

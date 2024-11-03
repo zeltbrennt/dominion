@@ -1,14 +1,17 @@
-import { AccordionDetails, FormControl, FormLabel, RadioGroup, Radio } from "@mui/joy"
+import { AccordionDetails, Typography, Sheet, Card, RadioGroup, Radio, CardContent, CardActions } from "@mui/joy"
 import { ChangeEvent } from "react"
+import { DominionCard } from "./Game";
+import { mapCardTypeToColor } from "./CardDisplay";
+import { DominionCardType } from "./Game"
 
 export interface CardOptionProps {
-    cardName: string,
+    card: DominionCard,
     onDefault: () => void,
     onInclude: () => void,
     onExclude: () => void,
 }
 
-export default function CardOption({ cardName, onDefault, onInclude, onExclude }: CardOptionProps) {
+export default function CardOption({ card, onDefault, onInclude, onExclude }: CardOptionProps) {
 
     const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
         switch (event.target.value) {
@@ -19,14 +22,32 @@ export default function CardOption({ cardName, onDefault, onInclude, onExclude }
     }
     return (
         <AccordionDetails>
-            <FormControl orientation="horizontal" sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                <FormLabel>{cardName}</FormLabel>
-                <RadioGroup defaultValue={"maybe"} orientation="horizontal" onChange={handleRadioChange}>
-                    <Radio value="include" label="Ja" />
-                    <Radio value="exclude" label="Nein" />
-                    <Radio value="maybe" label="Vielleicht" />
-                </RadioGroup>
-            </FormControl>
+            <Card
+                variant={card.type == DominionCardType.Action ? "outlined" : "soft"}
+                size="sm"
+                color={mapCardTypeToColor(card.type)}>
+                <CardContent>
+                    <Typography>
+                        {card.cost} - {card.name}
+                    </Typography>
+                </CardContent>
+                <CardActions sx={{ display: 'flex', justifyContent: 'right' }}>
+
+                    <RadioGroup defaultValue={"maybe"} orientation="horizontal"
+                        sx={{ gap: 2, display: 'flex', justifyContent: 'space-around' }}
+                        onChange={handleRadioChange}>
+                        <Sheet sx={{ borderRadius: '10%', padding: '5px', minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <Radio value="include" overlay disableIcon label="Ja" />
+                        </Sheet>
+                        <Sheet sx={{ borderRadius: '10%', padding: '5px', minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <Radio value="exclude" overlay disableIcon label="Nein" />
+                        </Sheet>
+                        <Sheet sx={{ borderRadius: '10%', padding: '5px', minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <Radio value="maybe" overlay disableIcon label="Vielleicht" />
+                        </Sheet>
+                    </RadioGroup>
+                </CardActions>
+            </Card>
         </AccordionDetails>
     )
 }

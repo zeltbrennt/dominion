@@ -18,8 +18,8 @@ export default function CardBox({ name, cards }: CardBoxProps) {
                 </AccordionSummary>
 
                 {cards.map(item => <CardOption
-                    key={item.cardName}
-                    cardName={item.cardName}
+                    key={item.card.name}
+                    card={item.card}
                     onDefault={item.onDefault}
                     onExclude={item.onExclude}
                     onInclude={item.onInclude}
