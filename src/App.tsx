@@ -69,7 +69,7 @@ function App() {
   return (
     <Stack spacing={1.5}>
 
-      <Typography color="primary" level="h2">Dominion RNG</Typography>
+      <Typography color="primary" level="h2">Dominion Randomizer</Typography>
       <Typography color="neutral">Mögliche Spiele: {new Intl.NumberFormat('de-DE').format(nCombinations)}</Typography>
 
       <CardBox key="basisspiel" name="Basisspiel (1. Edition)" cards={basisspiel.map(card => (
