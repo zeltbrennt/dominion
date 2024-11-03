@@ -88,11 +88,13 @@ function App() {
 
 
       <Button onClick={shuffle} disabled={nCombinations < 1}>Neues Spiel</Button>
+      {/*
       <Button onClick={() => {
         setChoices([])
         setExclude([])
         setInclude([])
       }} color="danger">Reset</Button>
+      */}
       <Stack spacing={0.5}>
         {choices.map(choice =>
           <CardDisplay cardData={choice} />
