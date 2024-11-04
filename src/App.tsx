@@ -2,7 +2,7 @@ import { Stack, Typography, Button, CssVarsProvider } from "@mui/joy"
 import CardBox from "./CardBox"
 import { CardOptionProps } from "./CardOption"
 import { useEffect, useState } from "react"
-import { basisspiel, DominionCard, intrige } from "./Game"
+import { basisspiel, DominionCard } from "./Game"
 import CardDisplay from "./CardDisplay"
 import theme from "./Theme"
 
@@ -69,12 +69,12 @@ function App() {
 
   return (
     <CssVarsProvider theme={theme} >
-
-      <Stack spacing={1.5}>
+      <Stack spacing={1.5} >
 
         <Typography color="primary" level="h2">Dominion Randomizer</Typography>
         <Typography color="neutral">Mögliche Spiele: {new Intl.NumberFormat('de-DE').format(nCombinations)}</Typography>
-
+      </Stack >
+      <Stack >
         <CardBox key="basisspiel" name="Basisspiel (1. Edition)" cards={basisspiel.map(card => (
           {
             card: card,
@@ -105,7 +105,7 @@ function App() {
           } as CardOptionProps))} />
 */
 
-          <Button onClick={shuffle} disabled={nCombinations < 1}>Neues Spiel</Button>
+          <Button onClick={shuffle} disabled={nCombinations < 1} sx={{ marginBottom: 2 }}>Neues Spiel</Button>
         /*
       <Button onClick={() => {
         setChoices([])

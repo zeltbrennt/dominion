@@ -6,7 +6,7 @@ export default function CardName({ cardData }: CardDisplayProps) {
     return (
         <Stack spacing={1} direction='row' sx={{ display: "flex", alignItems: 'center', justifyContent: 'flex-start' }}>
             <Sheet sx={{
-                borderRadius: '50%', width: 30, height: 30, display: 'flex',
+                borderRadius: '50%', width: 25, height: 25, display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 bgcolor: 'warning.softBg'
@@ -15,7 +15,7 @@ export default function CardName({ cardData }: CardDisplayProps) {
                     {cardData.cost}
                 </Typography>
             </Sheet>
-            <Typography level="title-lg">
+            <Typography level="title-md">
                 {cardData.name}
             </Typography>
         </Stack>
