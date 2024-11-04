@@ -11,7 +11,7 @@ export default function CardBox({ name, cards }: CardBoxProps) {
         <AccordionGroup>
 
             <Accordion>
-                <AccordionSummary>
+                <AccordionSummary sx={{ marginBottom: 2 }}>
                     <Typography level="h3" color="primary">
                         {name}
                     </Typography>

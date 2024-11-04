@@ -1,8 +1,9 @@
-import { AccordionDetails, Typography, Sheet, Card, RadioGroup, Radio, CardContent, CardActions } from "@mui/joy"
-import { ChangeEvent } from "react"
+import { AccordionDetails, Sheet, Stack, Typography, Card, CardContent, CardActions } from "@mui/joy"
 import { DominionCard } from "./Game";
 import { mapCardTypeToColor } from "./CardDisplay";
 import { DominionCardType } from "./Game"
+import RadioButtonGroup from "./RadioButtonGroup";
+import CardName from "./CardName";
 
 export interface CardOptionProps {
     card: DominionCard,
@@ -13,39 +14,19 @@ export interface CardOptionProps {
 
 export default function CardOption({ card, onDefault, onInclude, onExclude }: CardOptionProps) {
 
-    const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
-        switch (event.target.value) {
-            case "include": onInclude(); break;
-            case "exclude": onExclude(); break;
-            default: onDefault();
-        }
-    }
+
     return (
         <AccordionDetails>
             <Card
                 variant={card.type == DominionCardType.Action ? "outlined" : "soft"}
+                sx={{ border: 1, borderColor: 'rgba(0, 0, 0, 0.12)' }}
                 size="sm"
                 color={mapCardTypeToColor(card.type)}>
                 <CardContent>
-                    <Typography>
-                        {card.cost} - {card.name}
-                    </Typography>
+                    <CardName cardData={card} />
                 </CardContent>
                 <CardActions sx={{ display: 'flex', justifyContent: 'right' }}>
-
-                    <RadioGroup defaultValue={"maybe"} orientation="horizontal"
-                        sx={{ gap: 2, display: 'flex', justifyContent: 'space-around' }}
-                        onChange={handleRadioChange}>
-                        <Sheet sx={{ borderRadius: '10%', padding: '5px', minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <Radio value="include" overlay disableIcon label="Ja" />
-                        </Sheet>
-                        <Sheet sx={{ borderRadius: '10%', padding: '5px', minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <Radio value="exclude" overlay disableIcon label="Nein" />
-                        </Sheet>
-                        <Sheet sx={{ borderRadius: '10%', padding: '5px', minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <Radio value="maybe" overlay disableIcon label="Vielleicht" />
-                        </Sheet>
-                    </RadioGroup>
+                    <RadioButtonGroup card={card} onDefault={onDefault} onInclude={onInclude} onExclude={onExclude} />
                 </CardActions>
             </Card>
         </AccordionDetails>

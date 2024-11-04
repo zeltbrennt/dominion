@@ -134,3 +134,21 @@ export const basisspiel: DominionCard[] = [
         type: DominionCardType.Action,
         cost: 6
     }]
+
+export const intrige: DominionCard[] = [
+    {
+        name: "Burghof",
+        type: DominionCardType.Action,
+        cost: 2
+    },
+    {
+        name: "Handlanger",
+        type: DominionCardType.Action,
+        cost: 2
+    },
+    {
+        name: "Armenviertel",
+        type: DominionCardType.Action,
+        cost: 3
+    },
+]

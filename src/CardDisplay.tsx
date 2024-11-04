@@ -1,7 +1,8 @@
-import { Card, CardContent, Typography } from "@mui/joy";
+import { Card, CardContent, } from "@mui/joy";
 import { DominionCard, DominionCardType } from "./Game";
+import CardName from "./CardName";
 
-interface CardDisplayProps {
+export interface CardDisplayProps {
     cardData: DominionCard;
 }
 
@@ -10,7 +11,7 @@ export const mapCardTypeToColor = (cardType: DominionCardType) => {
         case DominionCardType.Attack: return 'danger'
         case DominionCardType.Defense: return 'primary'
         case DominionCardType.Point: return 'success'
-        default: return undefined
+        default: return 'neutral'
     }
 }
 
@@ -19,12 +20,11 @@ export default function CardDisplay({ cardData }: CardDisplayProps) {
     return (
         <Card
             variant={cardData.type == DominionCardType.Action ? "outlined" : "soft"}
+            sx={{ border: 1, borderColor: 'rgba(0, 0, 0, 0.12)' }}
             size="sm"
             color={mapCardTypeToColor(cardData.type)}>
             <CardContent>
-                <Typography>
-                    {cardData.cost} - {cardData.name}
-                </Typography>
+                <CardName cardData={cardData} />
             </CardContent>
         </Card>
     )

@@ -1,9 +1,10 @@
-import { Stack, Typography, Button } from "@mui/joy"
+import { Stack, Typography, Button, CssVarsProvider } from "@mui/joy"
 import CardBox from "./CardBox"
 import { CardOptionProps } from "./CardOption"
 import { useEffect, useState } from "react"
-import { basisspiel, DominionCard } from "./Game"
+import { basisspiel, DominionCard, intrige } from "./Game"
 import CardDisplay from "./CardDisplay"
+import theme from "./Theme"
 
 
 
@@ -67,44 +68,59 @@ function App() {
   }
 
   return (
-    <Stack spacing={1.5}>
+    <CssVarsProvider theme={theme} >
 
-      <Typography color="primary" level="h2">Dominion Randomizer</Typography>
-      <Typography color="neutral">Mögliche Spiele: {new Intl.NumberFormat('de-DE').format(nCombinations)}</Typography>
+      <Stack spacing={1.5}>
 
-      <CardBox key="basisspiel" name="Basisspiel (1. Edition)" cards={basisspiel.map(card => (
-        {
-          card: card,
-          onDefault: () => removeFromBothLists(card),
-          onInclude: () => {
-            addToInclude(card)
-            setExclude(exclude.filter(item => item != card))
-          },
-          onExclude: () => {
-            addToExclude(card)
-            setInclude(include.filter(item => item != card))
-          },
-        } as CardOptionProps))} />
+        <Typography color="primary" level="h2">Dominion Randomizer</Typography>
+        <Typography color="neutral">Mögliche Spiele: {new Intl.NumberFormat('de-DE').format(nCombinations)}</Typography>
 
+        <CardBox key="basisspiel" name="Basisspiel (1. Edition)" cards={basisspiel.map(card => (
+          {
+            card: card,
+            onDefault: () => removeFromBothLists(card),
+            onInclude: () => {
+              addToInclude(card)
+              setExclude(exclude.filter(item => item != card))
+            },
+            onExclude: () => {
+              addToExclude(card)
+              setInclude(include.filter(item => item != card))
+            },
+          } as CardOptionProps))} />
 
-      <Button onClick={shuffle} disabled={nCombinations < 1}>Neues Spiel</Button>
-      {/*
+        {/*
+        <CardBox key="intriege" name="Intrige (1. Edition)" cards={intrige.map(card => (
+          {
+            card: card,
+            onDefault: () => removeFromBothLists(card),
+            onInclude: () => {
+              addToInclude(card)
+              setExclude(exclude.filter(item => item != card))
+            },
+            onExclude: () => {
+              addToExclude(card)
+              setInclude(include.filter(item => item != card))
+            },
+          } as CardOptionProps))} />
+*/
+
+          <Button onClick={shuffle} disabled={nCombinations < 1}>Neues Spiel</Button>
+        /*
       <Button onClick={() => {
         setChoices([])
         setExclude([])
         setInclude([])
-      }} color="danger">Reset</Button>
+        }} color="danger">Reset</Button>
       */}
-      <Stack spacing={0.5}>
-        {choices.map(choice =>
-          <CardDisplay cardData={choice} />
-        )}
+        <Stack spacing={0.5}>
+          {choices.map(choice =>
+            <CardDisplay cardData={choice} />
+          )}
+        </Stack>
+
       </Stack>
-
-    </Stack>
-
-
-
+    </CssVarsProvider>
   )
 }
 
