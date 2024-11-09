@@ -46,7 +46,7 @@ export const basisspiel: DominionCard[] = [
     },
     {
         name: "Bürokrat",
-        type: DominionCardType.Action,
+        type: DominionCardType.Attack,
         cost: 4
     },
     {
